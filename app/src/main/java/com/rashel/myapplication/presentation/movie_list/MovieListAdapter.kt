@@ -4,22 +4,38 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.rashel.myapplication.R
+import com.rashel.myapplication.common.Constants
 import com.rashel.myapplication.databinding.ItemMovieBinding
 import com.rashel.myapplication.domain.model.movie_item.Movie
 import javax.inject.Inject
 
-class MovieListAdapter(diffCallback: DiffUtil.ItemCallback<Movie>) :
+class MovieListAdapter(
+    diffCallback: DiffUtil.ItemCallback<Movie>,
+    private val onItemClick: (Int) -> (Unit)
+) :
     PagingDataAdapter<Movie, MovieListAdapter.MovieViewModel>(diffCallback) {
 
     override fun onBindViewHolder(holder: MovieViewModel, position: Int) {
         Log.d("TEST", "onBindViewHolder $position")
-        getItem(position)?.let {
-            holder.textView.text = "${it.id}"
+        getItem(position)?.let { movie ->
+            movie.poster_path?.let { poster ->
+                Glide.with(holder.itemView.context)
+                    .load("${Constants.BASE_URL_IMAGE}w185/${poster}")
+                    .placeholder(R.drawable.img_placeholder)
+                    .into(holder.imgView)
+
+                holder.itemView.setOnClickListener {
+                    onItemClick(movie.id!!)
+                }
+            }
+
         }
     }
 
@@ -30,7 +46,7 @@ class MovieListAdapter(diffCallback: DiffUtil.ItemCallback<Movie>) :
     }
 
     inner class MovieViewModel(view: View) : RecyclerView.ViewHolder(view) {
-        val textView = view.findViewById<TextView>(R.id.textView)
+        val imgView = view.findViewById<ImageView>(R.id.imgView)
     }
 
 }

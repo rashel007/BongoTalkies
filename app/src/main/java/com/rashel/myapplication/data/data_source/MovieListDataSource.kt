@@ -15,14 +15,13 @@ class MovieListDataSource(
     private val apiService: TmdbApiService,
     private val apiKey: String,
     private val language: String,
-    private val page: Int
 ) : PagingSource<Int, MovieDto>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieDto> {
 
         return try {
             val position = params.key ?: STARTING_POSITION
-            val response = apiService.getMovies(apiKey, language, page)
+            val response = apiService.getMovies(apiKey, language, position)
 
             LoadResult.Page(
                 data = response.results,

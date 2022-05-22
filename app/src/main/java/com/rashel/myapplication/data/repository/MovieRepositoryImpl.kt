@@ -26,7 +26,6 @@ class MovieRepositoryImpl @Inject constructor(
     override fun getMovies(
         apiKey: String,
         language: String,
-        page: Int
     ): Flow<PagingData<MovieDto>> {
         return Pager(
             config = PagingConfig(
@@ -34,7 +33,7 @@ class MovieRepositoryImpl @Inject constructor(
                 maxSize = 100,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { MovieListDataSource(apiService, apiKey, language, page) }
+            pagingSourceFactory = { MovieListDataSource(apiService, apiKey, language) }
         ).flow
     }
 

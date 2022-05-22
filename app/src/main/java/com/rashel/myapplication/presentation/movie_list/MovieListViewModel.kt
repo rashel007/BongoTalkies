@@ -19,7 +19,7 @@ class MovieListViewModel @Inject constructor(
     private val getMoviesUseCase: GetMoviesUseCase
 ) : ViewModel() {
 
-    val item = getMoviesUseCase.invoke("c37d3b40004717511adb2c1fbb15eda4", "end", 1).map {
+    val item = getMoviesUseCase.invoke("c37d3b40004717511adb2c1fbb15eda4", "end").map {
         it.map {
             Log.d("TEST", "it.toMovie()")
             it.toMovie()

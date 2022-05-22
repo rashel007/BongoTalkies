@@ -22,10 +22,9 @@ class GetMoviesUseCase @Inject constructor(
 ) {
     operator fun invoke(
         apiKey: String,
-        language: String,
-        page: Int
+        language: String
     ): Flow<PagingData<MovieDto>> {
-        return repository.getMovies(apiKey, language, page)
+        return repository.getMovies(apiKey, language)
     }
 
 }

@@ -12,10 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
+import androidx.recyclerview.widget.GridLayoutManager
 import com.rashel.myapplication.R
 import com.rashel.myapplication.databinding.FragmentMovieListBinding
 import com.rashel.myapplication.domain.model.movie_item.Movie
 import com.rashel.myapplication.presentation.collectLast
+import com.rashel.myapplication.presentation.movie_detail.MovieDetailFragmentArgs
 import com.rashel.myapplication.presentation.movie_detail.MovieDetailFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -26,11 +28,16 @@ import kotlinx.coroutines.launch
 class MovieListFragment : Fragment() {
 
     private val viewModel by viewModels<MovieListViewModel>()
+
     private val binding: FragmentMovieListBinding by lazy {
         FragmentMovieListBinding.inflate(layoutInflater)
     }
 
-    val pagingAdapter = MovieListAdapter(UserComparator)
+    val pagingAdapter = MovieListAdapter(UserComparator){
+        val action = MovieDetailFragmentDirections.movieDetail(it)
+        findNavController().navigate(action)
+
+    }
 
 
     override fun onCreateView(
@@ -44,7 +51,9 @@ class MovieListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.adapter = pagingAdapter
-
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.setItemViewCacheSize(1)
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
         collectLast(viewModel.item, ::setUsers)
 
     }

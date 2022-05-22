@@ -36,11 +36,13 @@ fun MovieDetailDto.toMovieDetail(): MovieDetail {
         id = id,
         original_title = original_title,
         overview = overview,
+        backdrop_path = backdrop_path,
         poster_path = poster_path,
         release_date = release_date,
         revenue = revenue,
         runtime = runtime,
         status = status,
-        tagline = tagline
+        tagline = tagline,
+        vote_average = vote_average
     )
 }
