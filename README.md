@@ -3,6 +3,9 @@
 Created a basic movie list and details page app following mvvm clean architecture
 
 
+Movie List              |  Details Page                          
+:----------------:|:----------------:
+![](/scrrens/list_page.png)  |  ![](/scrrens/details_page.png) 
 
 
 At a glance:
