@@ -20,21 +20,28 @@ class MovieDetailsViewModel @Inject constructor(private val useCase: GetMovieUse
     val movie: LiveData<MovieDetail>
         get() = _movie
 
+
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean>
+        get() = _loading
+
     fun getMovie(id: Int) {
 
         useCase.invoke("c37d3b40004717511adb2c1fbb15eda4", id).onEach {
+
             when (it) {
                 is Resource.Loading -> {
-
+                    _loading.value = true
                 }
                 is Resource.Success -> {
+                    _loading.value = false
                     it.data.let {
                         _movie.value = it
                     }
 
                 }
                 is Resource.Failed -> {
-
+                    _loading.value = false
                 }
             }
         }.launchIn(viewModelScope)

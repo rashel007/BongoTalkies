@@ -45,6 +45,14 @@ class MovieDetailFragment : Fragment() {
 
         viewModel.getMovie(args.movieId)
 
+        viewModel.loading.observe(viewLifecycleOwner) {
+            Log.d("PAGE", "Loading ${it}")
+            if (it)
+                binding.progressBar.visibility = View.VISIBLE
+            else
+                binding.progressBar.visibility = View.GONE
+        }
+
         viewModel.movie.observe(viewLifecycleOwner) {
             Glide.with(requireContext())
                 .load("${Constants.BASE_URL_IMAGE}w300/${it.backdrop_path}")
