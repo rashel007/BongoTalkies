@@ -17,6 +17,7 @@ At a glance:
 -  NavArgs
 -  Flow
 -  Coroutine
+-  Hilt
 -  Okhttp Cache
 -  Testing:
     - JUnit
